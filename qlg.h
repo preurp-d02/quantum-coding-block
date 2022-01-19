@@ -3,38 +3,39 @@
 
 #include <complex.h>
 
-typedef struct qubit {
-  _Complex double zero, one;
-} qubit;
+#define QLG_I 0
+#define QLG_C 1
+#define QLG_X 2
+#define QLG_Y 3
+#define QLG_Z 4
+#define QLG_H 5
+#define QLG_CX 6
+#define QLG_CY 7
+#define QLG_CZ 8
+#define QLG_CH 9
 
-extern void qlg_x(struct qubit q);
-extern void qlg_y(struct qubit q);
-extern void qlg_z(struct qubit q);
-extern void qlg_h(struct qubit q);
-extern void qlg_cnot(struct qubit q, qubit c);
+typedef struct qlg_qc {
+  _Complex double state[2][2][2];
+} qlg_qc;
 
-extern struct qubit qlg_zero();
-extern struct qubit qlg_one();
-extern struct qubit qlg_plus();
-extern struct qubit qlg_minus();
-extern struct qubit qlg_r();
-extern struct qubit qlg_l();
+typedef struct qlg_qubit {
+  _Complex double state[2];
+} qlg_qubit;
 
-extern void qlg_set_zero(struct qubit q);
-extern void qlg_set_one(struct qubit q);
-extern void qlg_set_plus(struct qubit q);
-extern void qlg_set_minus(struct qubit q);
-extern void qlg_set_r(struct qubit q);
-extern void qlg_set_l(struct qubit q);
+extern struct qlg_qc init(qlg_qubit *x);
+extern double prob(struct qlg_qc qc, struct qlg_qc phi);
+extern struct qlg_qc measure(struct qlg_qc qc);
 
-extern unsigned short qlg_is_zero(struct qubit q);
-extern unsigned short qlg_is_one(struct qubit q);
-extern unsigned short qlg_is_plus(struct qubit q);
-extern unsigned short qlg_is_minus(struct qubit q);
-extern unsigned short qlg_is_r(struct qubit q);
-extern unsigned short qlg_is_l(struct qubit q);
-extern unsigned short qlg_is_x_basis(struct qubit q);
-extern unsigned short qlg_is_y_basis(struct qubit q);
-extern unsigned short qlg_is_z_basis(struct qubit q);
+extern struct qlg_qc qlg_apply(struct qlg_qc qc, int op1, int op2, int op3);
+extern struct qlg_qc qlg_apply_arr(struct qlg_qc qc, int *op);
+extern struct qlg_qc qlg_i(struct qlg_qc qc, int x);
+extern struct qlg_qc qlg_x(struct qlg_qc qc, int x);
+extern struct qlg_qc qlg_y(struct qlg_qc qc, int x);
+extern struct qlg_qc qlg_z(struct qlg_qc qc, int x);
+extern struct qlg_qc qlg_h(struct qlg_qc qc, int x);
+extern struct qlg_qc qlg_cx(struct qlg_qc qc, int c, int x);
+extern struct qlg_qc qlg_cy(struct qlg_qc qc, int c, int x);
+extern struct qlg_qc qlg_cz(struct qlg_qc qc, int c, int x);
+extern struct qlg_qc qlg_ch(struct qlg_qc qc, int c, int x);
 
 #endif
